@@ -8,33 +8,35 @@ import {
   JoinColumn,
 } from 'typeorm'
 
-import Category from './Category';
+import Category from './Category'
 
 @Entity('transactions')
-class Transactions{
-    @PrimaryGeneratedColumn('uuid')
-    id: string
+class Transactions {
+  @PrimaryGeneratedColumn('uuid')
+  id: string
 
-    @Column()
-    title: string
+  @Column()
+  title: string
 
-    @Column('decimal')
-    value: number
+  @Column('decimal')
+  value: number
 
-    @Column()
-    type: 'income'| 'outcome'
-    
-    @Column()
-    category_id: string
-    
-    @ManyToOne(()=> Category)
-    @JoinColumn({name: 'category_id'})
-    category:Category
-    
-    @CreateDateColumn()
-    created_at: Date
+  @Column()
+  type: 'income' | 'outcome'
 
-    @UpdateDateColumn()
-    updated_at: Date
+  @Column()
+  category_id: string
+
+  @ManyToOne(() => Category, (category) => category.transaction, {
+    eager: true,
+  })
+  @JoinColumn({ name: 'category_id' })
+  category: Category
+
+  @CreateDateColumn()
+  created_at: Date
+
+  @UpdateDateColumn()
+  updated_at: Date
 }
 export default Transactions
